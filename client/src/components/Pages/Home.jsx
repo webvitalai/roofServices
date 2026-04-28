@@ -206,7 +206,7 @@ export default function Home() {
                 title="Flat Roof"
                 location="Salford"
                 beforeImg="/Images/19.png"
-                afterImg="/Images8.png"
+                afterImg="/Images/8.png"
               />
             </Col>
           </Row>
