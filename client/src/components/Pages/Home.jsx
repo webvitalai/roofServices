@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Carousel } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {
   ShieldCheck,
@@ -65,69 +65,74 @@ function BeforeAfterCard({ title, location, beforeImg, afterImg }) {
 }
 
 export default function Home() {
+  const heroSlides = [
+    { beforeImg: "/Images/6.png", afterImg: "/Images/7.png" },
+    { beforeImg: "/Images/9.png", afterImg: "/Images/10.png" },
+    { beforeImg: "/Images/19.png", afterImg: "/Images/8.png" },
+  ];
+
   return (
     <main className="home-page">
       <section className="hero-section">
-        <Container>
-          <Row className="align-items-center gy-5">
-            <Col lg={6}>
-              <div className="hero-badge">
-                ⭐ 4.9/5 Rated · 200+ Reviews · Est. 2009
-              </div>
+        <Carousel fade controls indicators interval={3500} pause={false}>
+          {heroSlides.map((slide, index) => (
+            <Carousel.Item key={index}>
+              <div className="hero-slide">
+                <div className="hero-before-after">
+                  <div className="hero-before">
+                    <img src={slide.beforeImg} alt="Before roofing work" />
+                    <span>Before</span>
+                  </div>
 
-              <h1 className="hero-title">
-                Manchester’s <br />
-                <span>Trusted Roofers</span>
-              </h1>
-
-              <p className="hero-text">
-                Professional roof repairs, full replacements, flat roofing and
-                emergency support with honest prices and guaranteed workmanship.
-              </p>
-
-              <div className="hero-points">
-                <span>✓ Fully Insured</span>
-                <span>✓ Written Quotes</span>
-                <span>✓ 10 Year Guarantee</span>
-              </div>
-
-              <div className="hero-actions">
-                <Button as={Link} to="/contact" className="main-btn">
-                  Get Free Quote
-                </Button>
-
-                <a href="tel:01618745200" className="call-btn">
-                  <TelephoneFill /> 0161 874 5200
-                </a>
-              </div>
-
-              <a href="tel:01618745201" className="emergency-link">
-                🚨 24/7 Emergency Line: 0161 874 5201
-              </a>
-            </Col>
-
-            <Col lg={6}>
-              <div className="hero-image-wrap">
-                <video
-                  src="/Videos/v1.mp4"
-                  className="hero-video"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                />
-
-                <div className="guarantee-card">
-                  <ShieldCheck />
-                  <div>
-                    <h4>10 Year</h4>
-                    <p>Guarantee</p>
+                  <div className="hero-after">
+                    <img src={slide.afterImg} alt="After roofing work" />
+                    <span>After</span>
                   </div>
                 </div>
+
+                <div className="hero-overlay"></div>
               </div>
-            </Col>
-          </Row>
+            </Carousel.Item>
+          ))}
+        </Carousel>
+
+        <Container className="hero-content">
+          <div>
+            <div className="hero-badge hero-badge-on-carousel">
+              ⭐ 4.9/5 Rated · 200+ Reviews · Est. 2009
+            </div>
+
+            <h1 className="hero-title">
+              Manchester’s <br />
+              <span>Trusted Roofers</span>
+            </h1>
+          </div>
+        </Container>
+      </section>
+
+      <section className="hero-bottom-content">
+        <Container>
+          <div className="hero-text-wrap">
+            <div className="hero-points">
+              <span>✓ Fully Insured</span>
+              <span>✓ Written Quotes</span>
+              <span>✓ 10 Year Guarantee</span>
+            </div>
+
+            <div className="hero-actions">
+              <Button as={Link} to="/contact" className="main-btn">
+                Get Free Quote
+              </Button>
+
+              <a href="tel:01618745200" className="call-btn">
+                <TelephoneFill /> 0161 874 5200
+              </a>
+            </div>
+
+            <a href="tel:01618745201" className="emergency-link">
+              🚨 24/7 Emergency Line: 0161 874 5201
+            </a>
+          </div>
         </Container>
       </section>
 
@@ -276,48 +281,144 @@ export default function Home() {
         }
 
         .hero-section{
-          padding:100px 0;
-          background:
-          radial-gradient(circle at top left, rgba(20,184,166,.15), transparent 30%),
-          linear-gradient(135deg,#f8fffd,#ffffff,#e6fffb);
+          position:relative;
+          height:620px;
+          min-height:620px;
+          overflow:hidden;
+          background:#07111f;
         }
 
-        .hero-badge,
-        .hero-title,
-        .hero-text,
-        .hero-points,
-        .hero-actions,
-        .emergency-link{
-          animation:fadeUp .9s ease forwards;
+        .hero-section .carousel,
+        .hero-section .carousel-inner,
+        .hero-section .carousel-item,
+        .hero-slide{
+          height:620px;
+          min-height:620px;
+        }
+
+        .hero-slide{
+          position:relative;
+          overflow:hidden;
+        }
+
+        .hero-before-after{
+          width:100%;
+          height:100%;
+          display:grid;
+          grid-template-columns:1fr 1fr;
+          background:#07111f;
+        }
+
+        .hero-before,
+        .hero-after{
+          position:relative;
+          overflow:hidden;
+          height:100%;
+        }
+
+        .hero-before img,
+        .hero-after img{
+          width:100%;
+          height:100%;
+          object-fit:cover;
+          object-position:center;
+          display:block;
+          filter:brightness(1.28) contrast(1.13) saturate(1.2);
+        }
+
+        .hero-before::after{
+          content:"";
+          position:absolute;
+          top:0;
+          right:0;
+          width:4px;
+          height:100%;
+          background:#fff;
+          z-index:2;
+          box-shadow:0 0 20px rgba(255,255,255,.7);
+        }
+
+        .hero-before span,
+        .hero-after span{
+          position:absolute;
+          bottom:34px;
+          padding:10px 22px;
+          border-radius:999px;
+          color:#fff;
+          font-weight:900;
+          letter-spacing:2px;
+          text-transform:uppercase;
+          z-index:3;
+          box-shadow:0 14px 30px rgba(0,0,0,.25);
+        }
+
+        .hero-before span{
+          right:35px;
+          background:#07111f;
+        }
+
+        .hero-after span{
+          left:35px;
+          background:linear-gradient(135deg,#0f766e,#14b8a6);
+        }
+
+        .hero-overlay{
+          position:absolute;
+          inset:0;
+          background:
+            linear-gradient(90deg, rgba(7,17,31,.58), rgba(7,17,31,.25), rgba(7,17,31,.04)),
+            linear-gradient(to top, rgba(7,17,31,.35), transparent);
+          z-index:2;
+          pointer-events:none;
+        }
+
+        .hero-content{
+          position:absolute;
+          inset:0;
+          z-index:5;
+          display:flex;
+          align-items:center;
+          pointer-events:none;
+        }
+
+        .hero-badge-on-carousel{
+          margin-bottom:14px;
+          pointer-events:auto;
         }
 
         .hero-title{
           font-family:'Cinzel',serif;
-          font-size:64px;
+          font-size:58px;
           font-weight:900;
-          line-height:1.1;
-          margin:20px 0;
+          line-height:1.08;
+          margin:0;
+          color:#fff;
+          max-width:650px;
+          text-align:left;
+          text-shadow:0 12px 40px rgba(0,0,0,.52);
+          animation:fadeUp .9s ease forwards;
         }
 
         .hero-title span{
-          color:#0f766e;
+          color:#14b8a6;
         }
 
-        .hero-text{
-          font-size:19px;
-          color:#64748b;
-          line-height:1.8;
-          max-width:560px;
+        .hero-bottom-content{
+          padding:46px 0 54px;
+        }
+
+        .hero-text-wrap{
+          max-width:760px;
         }
 
         .hero-badge{
           display:inline-block;
           padding:10px 18px;
-          background:#fff;
+          background:rgba(255,255,255,.95);
           border-radius:40px;
           font-weight:800;
           color:#0f766e;
-          box-shadow:0 10px 30px rgba(0,0,0,.05);
+          box-shadow:0 10px 30px rgba(0,0,0,.15);
           animation:pulseBadge 2.8s infinite ease-in-out;
         }
 
@@ -329,13 +430,14 @@ export default function Home() {
         }
 
         .hero-points span{
-          background:#fff;
+          background:rgba(255,255,255,.95);
+          color:#07111f;
           padding:10px 16px;
           border-radius:40px;
           font-size:13px;
           font-weight:800;
           transition:.35s;
-          box-shadow:0 8px 18px rgba(0,0,0,.05);
+          box-shadow:0 8px 18px rgba(0,0,0,.12);
         }
 
         .hero-points span:hover{
@@ -363,33 +465,18 @@ export default function Home() {
           transition:.35s!important;
         }
 
-        .main-btn::before{
-          content:"";
-          position:absolute;
-          top:0;
-          left:-100%;
-          width:100%;
-          height:100%;
-          background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);
-          transition:.55s;
-        }
-
-        .main-btn:hover::before{
-          left:100%;
-        }
-
         .main-btn:hover{
           transform:translateY(-5px) scale(1.04);
           box-shadow:0 22px 45px rgba(20,184,166,.42);
-          background:linear-gradient(135deg,#14b8a6,#0f766e)!important;
         }
 
         .call-btn{
           position:relative;
           overflow:hidden;
           text-decoration:none;
-          border:2px solid #0f766e;
-          color:#0f766e;
+          border:2px solid #07111f;
+          color:#07111f;
+          background:#ffffff;
           padding:13px 26px;
           border-radius:50px;
           font-weight:800;
@@ -398,6 +485,7 @@ export default function Home() {
           gap:8px;
           transition:.35s;
           z-index:1;
+          box-shadow:0 10px 24px rgba(0,0,0,.08);
         }
 
         .call-btn::before{
@@ -417,16 +505,8 @@ export default function Home() {
 
         .call-btn:hover{
           color:#fff;
+          border-color:#14b8a6;
           transform:translateY(-5px) scale(1.04);
-          box-shadow:0 18px 38px rgba(20,184,166,.25);
-        }
-
-        .call-btn svg{
-          transition:.35s;
-        }
-
-        .call-btn:hover svg{
-          transform:rotate(-12deg) scale(1.18);
         }
 
         .emergency-link{
@@ -439,54 +519,19 @@ export default function Home() {
         }
 
         .emergency-link:hover{
-          color:#991b1b;
+          color:#0f766e;
           transform:translateX(8px);
         }
 
-        .hero-image-wrap{
-          position:relative;
+        .hero-section .carousel-control-prev,
+        .hero-section .carousel-control-next{
+          z-index:7;
+          width:6%;
         }
 
-        .hero-video{
-          width:100%;
-          height:520px;
-          object-fit:cover;
-          border-radius:34px;
-          border:8px solid #fff;
-          box-shadow:0 30px 70px rgba(0,0,0,.15);
-          animation:heroFloat 5s ease-in-out infinite;
-          display:block;
-        }
-
-        .guarantee-card{
-          position:absolute;
-          left:-15px;
-          bottom:-15px;
-          background:#fff;
-          padding:18px 22px;
-          border-radius:22px;
-          display:flex;
-          gap:12px;
-          align-items:center;
-          box-shadow:0 20px 45px rgba(0,0,0,.12);
-          animation:cardFloat 3.8s ease-in-out infinite;
-        }
-
-        .guarantee-card svg{
-          font-size:34px;
-          color:#0f766e;
-        }
-
-        .guarantee-card h4{
-          margin:0;
-          font-weight:900;
-        }
-
-        .guarantee-card p{
-          margin:0;
-          font-size:12px;
-          color:#64748b;
-          font-weight:800;
+        .hero-section .carousel-indicators{
+          z-index:7;
+          bottom:18px;
         }
 
         .trust-section,
@@ -550,7 +595,6 @@ export default function Home() {
         .trust-card:hover .trust-icon-box{
           background:#fff;
           transform:scale(1.18) rotate(-6deg);
-          box-shadow:0 18px 35px rgba(0,0,0,.18);
         }
 
         .trust-card:hover .trust-icon{
@@ -685,7 +729,6 @@ export default function Home() {
           letter-spacing:1px;
           padding:6px 13px;
           border-radius:999px;
-          box-shadow:0 8px 18px rgba(0,0,0,.18);
         }
 
         .ba-label.before{
@@ -695,7 +738,7 @@ export default function Home() {
 
         .ba-label.after{
           right:16px;
-          background:linear-gradient(135deg,#fbbf24,#fbbf24);
+          background:#fbbf24;
         }
 
         .work-content{
@@ -730,7 +773,6 @@ export default function Home() {
           align-items:center;
           justify-content:center;
           text-decoration:none;
-          box-shadow:0 10px 25px rgba(124,58,237,.15);
           transition:.35s;
         }
 
@@ -793,24 +835,6 @@ export default function Home() {
           height:100%;
           box-shadow:0 25px 50px rgba(0,0,0,.16);
           transition:.4s ease;
-          border:1px solid rgba(20,184,166,.08);
-        }
-
-        .cta-card::after{
-          content:"";
-          position:absolute;
-          width:160px;
-          height:160px;
-          border-radius:50%;
-          background:rgba(255,255,255,.18);
-          right:-70px;
-          top:-70px;
-          transform:scale(0);
-          transition:.45s;
-        }
-
-        .cta-card:hover::after{
-          transform:scale(1.4);
         }
 
         .cta-icon{
@@ -824,12 +848,7 @@ export default function Home() {
           align-items:center;
           justify-content:center;
           font-size:34px;
-          box-shadow:0 16px 35px rgba(20,184,166,.16);
           transition:.4s ease;
-        }
-
-        .cta-icon svg{
-          font-size:36px;
         }
 
         .whatsapp-icon{
@@ -839,7 +858,6 @@ export default function Home() {
         .cta-card:hover{
           background:linear-gradient(135deg,#0f766e,#14b8a6);
           transform:translateY(-12px) scale(.98);
-          box-shadow:0 35px 65px rgba(20,184,166,.28);
         }
 
         .whatsapp-card:hover{
@@ -851,11 +869,6 @@ export default function Home() {
           transform:translateY(-6px) scale(1.16) rotate(-5deg);
         }
 
-        .cta-card:hover span,
-        .cta-card:hover strong{
-          color:#ffffff;
-        }
-
         .cta-card span{
           display:block;
           color:#0f766e;
@@ -865,8 +878,6 @@ export default function Home() {
           text-transform:uppercase;
           margin-bottom:14px;
           transition:.35s;
-          position:relative;
-          z-index:1;
         }
 
         .cta-card strong{
@@ -874,20 +885,11 @@ export default function Home() {
           color:#07111f;
           font-weight:900;
           transition:.35s;
-          position:relative;
-          z-index:1;
         }
 
-        @keyframes heroFloat{
-          0%{transform:translateY(0)}
-          50%{transform:translateY(-18px)}
-          100%{transform:translateY(0)}
-        }
-
-        @keyframes cardFloat{
-          0%{transform:translateY(0) translateX(0)}
-          50%{transform:translateY(-12px) translateX(10px) scale(1.04)}
-          100%{transform:translateY(0) translateX(0)}
+        .cta-card:hover span,
+        .cta-card:hover strong{
+          color:#ffffff;
         }
 
         @keyframes fadeUp{
@@ -907,14 +909,82 @@ export default function Home() {
         }
 
         @media(max-width:991px){
-          .hero-title{font-size:48px;}
-          .hero-video{height:420px;}
-          .cta-wrap{padding:40px 25px;}
-          .cta-head h2{font-size:38px;}
+          .hero-section,
+          .hero-section .carousel,
+          .hero-section .carousel-inner,
+          .hero-section .carousel-item,
+          .hero-slide{
+            height:520px;
+            min-height:520px;
+          }
+
+          .hero-title{
+            font-size:44px;
+          }
+
+          .cta-wrap{
+            padding:40px 25px;
+          }
+
+          .cta-head h2{
+            font-size:38px;
+          }
         }
 
         @media(max-width:575px){
-          .hero-title{font-size:38px;}
+          .hero-section,
+          .hero-section .carousel,
+          .hero-section .carousel-inner,
+          .hero-section .carousel-item,
+          .hero-slide{
+            height:430px;
+            min-height:430px;
+          }
+
+          .hero-before-after{
+            grid-template-columns:1fr 1fr;
+          }
+
+          .hero-before,
+          .hero-after{
+            height:100%;
+          }
+
+          .hero-before::after{
+            top:0;
+            right:0;
+            bottom:auto;
+            width:3px;
+            height:100%;
+          }
+
+          .hero-content{
+            align-items:center;
+          }
+
+          .hero-title{
+            font-size:28px;
+            max-width:260px;
+          }
+
+          .hero-before span,
+          .hero-after span{
+            bottom:24px;
+            padding:8px 14px;
+            font-size:11px;
+          }
+
+          .hero-before span{
+            right:12px;
+          }
+
+          .hero-after span{
+            left:12px;
+          }
+
+          .hero-bottom-content{
+            padding:36px 0 42px;
+          }
 
           .hero-actions{
             flex-direction:column;
@@ -924,13 +994,6 @@ export default function Home() {
           .call-btn{
             width:100%;
             justify-content:center;
-          }
-
-          .hero-video{height:330px;}
-
-          .guarantee-card{
-            left:10px;
-            bottom:10px;
           }
 
           .before-after{
@@ -943,6 +1006,12 @@ export default function Home() {
 
           .cta-card strong{
             font-size:24px;
+          }
+
+          .hero-badge,
+          .hero-badge-on-carousel{
+            font-size:9px;
+            padding:5px 10px;
           }
         }
       `}</style>
